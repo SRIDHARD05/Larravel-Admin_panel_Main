@@ -5,7 +5,6 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
-use App\Http\Middleware\ForceLogoutIfSessionDeleted;
 use Illuminate\Support\Facades\Route;
 use Predis\Command\Argument\Search\SearchArguments;
 
@@ -15,7 +14,7 @@ Route::post('/login', [AuthenticationController::class, 'login_store']);
 Route::post('/register', [AuthenticationController::class, 'register_store']);
 Route::middleware('auth')->post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
 
-Route::middleware(['auth', 'check.device.sessions'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/', [DashboardController::class, 'welcome'])->name('dashboard');
     Route::post('/logout/all_devices', [AuthenticationController::class, 'logout_all_devices'])->name('logout.alldevices');
 });

@@ -36,9 +36,12 @@ class SearchController extends Controller
             $employees = $employees->where('position', 'like', '%' . $position . '%');
         }
 
-        $data = $employees->paginate(100);
+        $limit = $request->input('limit', 10);
+        $data = $employees->paginate($limit);
 
         return view('search', compact('data'));
+        // $data = Employee::query()->cursorPaginate(20);
+        // return view('test', compact('data'));
     }
 
     public function file_download_notify(Request $request)
@@ -61,20 +64,19 @@ class SearchController extends Controller
         ], 200);
     }
 
-    // public function download_file(Request $request)
-    // {
-    //     $data = $request->json()->all();
+    public function download_file(Request $request)
+    {
+        $data = $request->json()->all();
 
-    //     $selectedIds = $data['selectedIds'];
-    //     $type = $data['type']; // csv, excel, pdf, text
+        $selectedIds = $data['selectedIds'];
+        $type = $data['type']; // csv, excel, pdf, text
 
 
-    //     return response()->json([
-    //         'selectedIds' => $selectedIds,
-    //         'type' => $type
-    //     ]);
-    // }
-
+        return response()->json([
+            'selectedIds' => $selectedIds,
+            'type' => $type
+        ]);
+    }
 
     public function test()
     {
