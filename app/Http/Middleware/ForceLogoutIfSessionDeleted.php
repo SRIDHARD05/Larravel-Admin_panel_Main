@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 
 class ForceLogoutIfSessionDeleted
 {
-
     public function handle(Request $request, Closure $next)
     {
         $user = Auth::user();
